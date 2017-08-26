@@ -1,0 +1,1 @@
+raspivid -o - -t 0 -w 640 -h 480 -rot 180 -hf -fps 25 |cvlc -vvv stream://dev/stdin --sout '#standard{access=http,mux=ts,dst=:8060}' :demux=h264

@@ -1,0 +1,65 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="jumbotron">
+	<div class="container">
+		<h1>Sensor Storage</h1>
+		<p>DHT11-sensor</p>
+        </div>
+</div>
+
+<div class="container">
+   <div class="row">
+	{% for sensor in config.MODEL.get_sensors() %}
+	<div class="col-md-4">
+		<h2>{{ sensor.name }}</h2>
+		<canvas id='Char {{ sensor.id }}' width='300' height='300'></canvas>
+	</div>
+	{% endfor %}
+   </div>
+</div>
+{% endblock %}
+
+{% block tail %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.js"></script>
+  <script>
+	function buildChart(id)
+	{
+		var context = $(id).get(0).getContext('2d');
+		var chart = new Chart(i).Line({
+		  labels: [],
+		  datasets: [
+		  {
+		    label: "Temperature(Celsius)",
+			fillColor: "rgba(200,200,200,0.5)",
+			strokeColor: "rgba(200,200,200,1)",
+			pointColor: "rgba(200,200,200,1)",
+			pointStrokeColor: "#fff",
+			pointHighlightFill: "#fff",
+			pointHighlightStroke: "rgba(200,200,200,1)",
+			data: []
+		  },
+		  {
+         	label: "Temperature(Celsius)",
+			fillColor: "rgba(200,200,200,0.5)",
+			strokeColor: "rgba(200,200,200,1)",
+			pointColor: "rgba(200,200,200,1)",
+			pointStrokeColor: "#fff",
+			pointHighlightFill: "#fff",
+			pointHighlightStroke: "rgba(200,200,200,1)",
+			data: []
+		  }
+	     ]
+      });
+	}
+
+	$(document).ready(function()
+	{
+	  {% for sensor in config.MODEL.get_sensors() %}
+		console.log('{{ sensor.name }}');
+		buildChart('Chart{{ sensor.id }}')
+	  {% endfor %}
+
+	});
+  </script>
+
+{% endblock %}
